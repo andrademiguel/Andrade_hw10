@@ -1,0 +1,43 @@
+<%- include("_header") -%>
+
+<h1>Delete a record?</h1>
+
+<form action="/delete/<%= model.Book_ID %>" method="post">
+    <div class="form-horizontal">
+
+        <%- include("_display") -%>
+
+        <div class="form-group row">
+            <label class="col-form-label col-sm-2"></label>
+            <div class="col-sm-10">
+                <input type="submit" value="Delete" class="btn btn-default btn-danger" />
+                <a class="btn btn-outline-dark cancel" href="/books">Cancel</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+<%- include("_footer") -%>
+
+// GET /create
+app.get("/create", (req, res) => {
+res.render("create", { model: {} });
+});
+
+// GET /create
+app.get("/create", (req, res) => {
+const book = {
+Author: "Victor Hugo"
+}
+res.render("create", { model: book });
+});
+
+// POST /create
+app.post("/create", (req, res) => {
+const sql = "INSERT INTO Books (Title, Author, Comments) VALUES (?, ?, ?)";
+const book = [req.body.Title, req.body.Author, req.body.Comments];
+db.run(sql, book, err => {
+// if (err) ...
+res.redirect("/books");
+});
+});
